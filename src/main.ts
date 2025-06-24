@@ -4,6 +4,10 @@ import { Logger as NestLogger } from '@nestjs/common';
 import { logger } from './shared/logger';
 import { Env } from './shared/env';
 import chalk from 'chalk';
+import { ValidationPipe } from '@nestjs/common';
+import { ResponseInterceptor } from './common/interceptors/response.interceptor';
+import { HttpExceptionFilter } from './common/filters/http-exception.filter';
+import { setupSwagger } from './shared/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -15,6 +19,20 @@ async function bootstrap() {
       verbose: (msg) => logger.verbose(msg),
     },
   });
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true, // strips unexpected properties
+      forbidNonWhitelisted: true, // throws error on extra props
+      transform: true, // transforms payloads to DTO classes
+    }),
+  );
+
+  app.useGlobalInterceptors(new ResponseInterceptor());
+  app.useGlobalFilters(new HttpExceptionFilter());
+
+  setupSwagger(app); // ✅ Hook in here
+
   await app.listen(Env.PORT);
   logger.info(chalk.greenBright(`🚀 App running on port ${Env.PORT}`), {
     context: 'Bootstrap',
