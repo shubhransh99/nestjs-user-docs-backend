@@ -1,6 +1,7 @@
 import { SequelizeModuleOptions } from '@nestjs/sequelize';
 import { Env } from '../shared/env';
 import { entities } from '../entities';
+import { logger } from 'src/shared/logger';
 
 export const sequelizeConfig: SequelizeModuleOptions = {
   dialect: 'postgres',
@@ -12,5 +13,5 @@ export const sequelizeConfig: SequelizeModuleOptions = {
   models: entities,
   autoLoadModels: false, // we explicitly register models
   synchronize: false, // use migrations instead
-  logging: Env.NODE_ENV !== 'production',
+  logging: (msg) => logger.debug(msg, { context: 'Sequelize' }),
 };
