@@ -13,7 +13,15 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: {
       log: (msg) => logger.info(msg),
-      error: (msg) => logger.error(msg),
+      error: (err) => {
+        if (err instanceof Error) {
+          logger.error(err.message, { stack: err.stack });
+        } else if (typeof err === 'string') {
+          logger.error(err);
+        } else {
+          logger.error(JSON.stringify(err, null, 2));
+        }
+      },
       warn: (msg) => logger.warn(msg),
       debug: (msg) => logger.debug(msg),
       verbose: (msg) => logger.verbose(msg),

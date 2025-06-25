@@ -7,13 +7,14 @@ import { User } from 'src/entities';
 import { Role } from 'src/entities/role.entity';
 import { Permission } from 'src/entities/permission.entity';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { Env } from 'src/shared/env';
 
 @Module({
   imports: [
     SequelizeModule.forFeature([User, Role, Permission]),
     JwtModule.register({
-      secret: process.env.JWT_SECRET || 'supersecret',
-      signOptions: { expiresIn: '1d' },
+      secret: Env.JWT.SECRET,
+      signOptions: { expiresIn: Env.JWT.EXPIRES_IN },
     }),
   ],
   controllers: [AuthController],
