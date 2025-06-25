@@ -7,7 +7,7 @@ export const Env = {
     HOST: process.env.DB_HOST || 'localhost',
     PORT: parseInt(process.env.DB_PORT || '5432', 10),
     USER: process.env.DB_USER || 'postgres',
-    PASSWORD: process.env.DB_PASSWORD || 'postgres',
+    PASSWORD: process.env.DB_PASSWORD || '123456',
     NAME: process.env.DB_NAME || 'nestjs_backend',
   },
 

@@ -13,5 +13,6 @@ export const sequelizeConfig: SequelizeModuleOptions = {
   models: entities,
   autoLoadModels: false, // we explicitly register models
   synchronize: false, // use migrations instead
-  logging: (msg) => logger.debug(msg, { context: 'Sequelize' }),
+  // logging: (msg) => logger.debug(msg, { context: 'Sequelize' }),
+  logging: false,
 };

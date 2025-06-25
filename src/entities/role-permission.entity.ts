@@ -19,13 +19,13 @@ export class RolePermission extends Model<RolePermission> {
     primaryKey: true,
     autoIncrement: true,
   })
-  role_permission_id: number;
+  declare role_permission_id: number;
 
   @ForeignKey(() => Role)
   @Column({ type: DataType.INTEGER })
-  role_id: number;
+  declare role_id: number;
 
   @ForeignKey(() => Permission)
   @Column({ type: DataType.INTEGER })
-  permission_id: number;
+  declare permission_id: number;
 }

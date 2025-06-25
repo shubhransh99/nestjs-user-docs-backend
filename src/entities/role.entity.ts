@@ -10,6 +10,10 @@ import { User } from './user.entity';
 import { Permission } from './permission.entity';
 import { RolePermission } from './role-permission.entity';
 
+export interface RoleAttributes {
+  role_id: number;
+  name: string;
+}
 
 @Table({
   tableName: 'roles',
@@ -17,20 +21,24 @@ import { RolePermission } from './role-permission.entity';
   timestamps: true,
   underscored: true,
 })
-export class Role extends Model<Role> {
+export class Role extends Model<RoleAttributes> {
   @Column({
     type: DataType.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   })
-  role_id: number;
+  declare role_id: number;
 
-  @Column({ type: DataType.STRING, unique: true, allowNull: false })
-  name: string;
+  @Column({
+    type: DataType.STRING,
+    unique: true,
+    allowNull: false,
+  })
+  declare name: string;
 
   @HasMany(() => User)
-  users: User[];
+  declare users: User[];
 
   @BelongsToMany(() => Permission, () => RolePermission)
-  permissions: Permission[];
+  declare permissions: Permission[];
 }
