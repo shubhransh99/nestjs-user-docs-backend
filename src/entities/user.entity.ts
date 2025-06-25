@@ -3,48 +3,38 @@ import {
   Column,
   Model,
   DataType,
-  PrimaryKey,
-  AutoIncrement,
-  AllowNull,
-  Unique,
-  CreatedAt,
-  UpdatedAt,
-  DeletedAt,
+  ForeignKey,
+  BelongsTo,
 } from 'sequelize-typescript';
+import { Role } from './role.entity';
 
 @Table({
   tableName: 'users',
-  paranoid: true, // enables soft delete via `deletedAt`
+  paranoid: true,
   timestamps: true,
+  underscored: true,
 })
 export class User extends Model<User> {
-  @PrimaryKey
-  @AutoIncrement
-  @Column(DataType.INTEGER)
+  @Column({
+    type: DataType.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  })
   user_id: number;
 
-  @AllowNull(false)
-  @Column(DataType.STRING)
+  @Column({ type: DataType.STRING, allowNull: false })
   name: string;
 
-  @AllowNull(false)
-  @Unique
-  @Column(DataType.STRING)
+  @Column({ type: DataType.STRING, allowNull: false, unique: true })
   email: string;
 
-  @AllowNull(false)
-  @Column(DataType.STRING)
+  @Column({ type: DataType.STRING, allowNull: false })
   password: string;
 
-  @CreatedAt
-  @Column({ field: 'created_at' })
-  created_at: Date;
+  @ForeignKey(() => Role)
+  @Column({ type: DataType.INTEGER, allowNull: false })
+  role_id: number;
 
-  @UpdatedAt
-  @Column({ field: 'updated_at' })
-  updated_at: Date;
-
-  @DeletedAt
-  @Column({ field: 'deleted_at' })
-  deleted_at: Date;
+  @BelongsTo(() => Role)
+  role: Role;
 }

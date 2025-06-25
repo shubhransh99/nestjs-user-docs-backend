@@ -9,6 +9,7 @@ module.exports = {
     port: process.env.DB_PORT || 5432,
     dialect: 'postgres',
     migrationStorageTableName: 'sequelize_meta',
+    logging: false,
   },
   // Add production/staging if needed later
 };
