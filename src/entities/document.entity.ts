@@ -6,7 +6,7 @@ import {
   ForeignKey,
   BelongsTo,
 } from 'sequelize-typescript';
-import { User } from './user.entity';
+import { User } from 'src/entities/user.entity';
 
 export interface DocumentAttributes {
   document_id: number;

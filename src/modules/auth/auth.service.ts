@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/sequelize';
-import { User } from 'src/entities';
+import { User } from 'src/entities/user.entity';
 import { Role } from 'src/entities/role.entity';
 import { Permission } from 'src/entities/permission.entity';
 import { comparePasswords } from 'src/shared/utils/password.util';
