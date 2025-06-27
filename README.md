@@ -269,7 +269,7 @@ jobs:
         run: docker build -t nestjs-assignment .
 ```
 
-### 💠 Optional: DockerHub Push
+### 🔠 Optional: DockerHub Push
 
 To enable DockerHub image push:
 
@@ -285,3 +285,43 @@ To enable DockerHub image push:
     docker tag nestjs-assignment ${{ secrets.DOCKER_USERNAME }}/nestjs-assignment:latest
     docker push ${{ secrets.DOCKER_USERNAME }}/nestjs-assignment:latest
 ```
+
+---
+
+## 📘 Final Documentation Summary (Phase 10)
+
+### 🔹 Project Intent
+This backend system is designed to demonstrate modular, scalable backend development in NestJS using production-grade practices.
+
+### 🔹 Design Decisions
+- Used Sequelize instead of TypeORM or Prisma for direct control and SQL-first design
+- Soft deletes and timestamps used across entities
+- RBAC handled via 1:1 user-role and M:N role-permission, enforced with decorators and guards
+- Used `shared/env.ts` for centralized env management and `Winston` logger for centralized logging
+
+### 🔹 Testing Strategy
+- Unit tests for each module using mocked dependencies
+- Single E2E test for Auth (with JWT validation)
+- Jest configured with minimum 70% coverage enforcement
+
+### 🔹 Deployment Readiness
+- Dockerfile and Compose provided
+- `.env.example` included for ease of setup
+- GitHub Actions pipeline to build/test/deploy
+
+### 🔹 Known Limitations (Intentionally Skipped for Assignment Scope)
+
+These features were left out intentionally to focus on assignment completeness and avoid over-engineering:
+
+- ❌ Redis sessions for stateless token storage (JWT only used)
+- ❌ Storing permissions inside JWT for faster auth (used DB lookups instead)
+- ❌ Additional E2E tests for non-auth modules (Auth E2E only covered)
+- ❌ PM2 process manager and NGINX reverse proxy (good for real prod)
+- ❌ Jenkins or GitLab CI support (GitHub Actions used)
+- ❌ Winston daily rotate logs (kept minimal Winston config for assignment)
+
+Each of these can be easily added with minimal effort in a real-world production extension.
+
+---
+
+_This marks the completion of the structured assignment delivery._
