@@ -18,7 +18,12 @@ module.exports = {
         });
       }
     }
-
+    permissions.push({
+      name: 'ingestion.trigger',
+      description: 'Permission to trigger document ingestion',
+      created_at: timestamp,
+      updated_at: timestamp,
+    })
     await queryInterface.bulkInsert('permissions', permissions);
   },
 

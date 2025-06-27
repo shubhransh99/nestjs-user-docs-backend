@@ -1,17 +1,4 @@
-import { ApiPropertyOptional } from '@nestjs/swagger';
-import {
-  IsOptional,
-  IsString,
-} from 'class-validator';
+import { PartialType } from '@nestjs/swagger';
+import { CreateDocumentDto } from './create-document.dto';
 
-export class UpdateDocumentDto {
-  @ApiPropertyOptional({ example: 'Updated title' })
-  @IsOptional()
-  @IsString()
-  title?: string;
-
-  @ApiPropertyOptional({ example: 'Updated description' })
-  @IsOptional()
-  @IsString()
-  description?: string;
-}
+export class UpdateDocumentDto extends PartialType(CreateDocumentDto) {}

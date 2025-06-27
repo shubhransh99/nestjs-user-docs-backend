@@ -30,7 +30,7 @@ import { QueryDocumentDto } from './dto/query-document.dto';
 import { UpdateDocumentDto } from './dto/update-document.dto';
 
 @ApiTags('Documents')
-@ApiBearerAuth()
+@ApiBearerAuth('access-token')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 @Controller('documents')
 export class DocumentsController {
