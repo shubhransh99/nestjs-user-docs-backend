@@ -189,3 +189,99 @@ src/
 ## 📄 License
 
 MIT License © 2025
+
+---
+
+## 🔄 CI/CD Pipeline (Phase 9)
+
+This project uses **GitHub Actions** for CI/CD automation.
+
+### ✅ Pipeline Overview
+
+Located at `.github/workflows/ci.yml`, the workflow does:
+
+1. Checkout code and install dependencies
+2. Run tests and check code coverage
+3. Build production-ready app
+4. Build Docker image
+5. Optionally push image to DockerHub or deploy
+
+### 🧪 Sample CI Workflow
+
+```yaml
+name: CI Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: nestjs_assignment
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: nestjs_assignment
+      JWT_SECRET: test_secret
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - run: npm install
+
+      - name: Run Migrations
+        run: npm run migrate
+
+      - name: Run Seeders
+        run: npm run seed
+
+      - name: Run Tests
+        run: npm run test:cov
+
+      - name: Build App
+        run: npm run build
+
+      - name: Docker Build (optional)
+        run: docker build -t nestjs-assignment .
+```
+
+### 💠 Optional: DockerHub Push
+
+To enable DockerHub image push:
+
+- Add `DOCKER_USERNAME` and `DOCKER_PASSWORD` to repo secrets
+- Append this to workflow:
+
+```yaml
+- name: Login to DockerHub
+  run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+- name: Push Image
+  run: |
+    docker tag nestjs-assignment ${{ secrets.DOCKER_USERNAME }}/nestjs-assignment:latest
+    docker push ${{ secrets.DOCKER_USERNAME }}/nestjs-assignment:latest
+```
