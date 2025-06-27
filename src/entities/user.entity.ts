@@ -5,8 +5,10 @@ import {
   DataType,
   ForeignKey,
   BelongsTo,
+  HasMany,
 } from 'sequelize-typescript';
 import { Role } from './role.entity';
+import { Document } from './document.entity';
 
 export interface UserAttributes {
   user_id: number;
@@ -58,4 +60,7 @@ export class User extends Model<UserAttributes> {
 
   @BelongsTo(() => Role)
   declare role: Role;
+
+  @HasMany(() => Document)
+  declare documents: Document[];
 }
